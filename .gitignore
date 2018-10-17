@@ -1,0 +1,5 @@
+*$py.class
+__pycache__/
+.DS_Store
+urls.db
+urls.db
