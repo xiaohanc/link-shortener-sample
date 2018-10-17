@@ -1,6 +1,10 @@
 # link-shortener-sample
 Currently running on https://dc2c110b.ngrok.io/. A sample web app to shorten url and redirect to original url based on python3 flask.
-The html used bootstrap component jumbotron for message call. Sqlites3 are using for database to insert and select urls. I am converting the url id from database with base10 and base64 in order to encode and decode the input urls. 
+The html used bootstrap component jumbotron for message call. Sqlites3 are used for database to insert and query urls. I am converting the url database id to short string of redirect url with base10 and base62 convert functions. 
+
+## Core functions
+The core converting functions stored in [`core/id_convert.py`](https://github.com/xiaohanc/link-shortener-sample/blob/master/core/id_convert.py) The core concept in this app is focus on converting database id to base62('a-z' 32 + 'A-Z' 32 + '0-9' 10 =62) for large system with a bunch of datas. After `id_to_base62(num)` converting completed, we will receive a short string to add host base domain in order to fomulate a shorter url. When user click converted url, app will cut the head host domain and pass the rest short string to `url_to_base10(short_url)`, translate to base10 database id, then sql query stored original url and redirect.
+
 
 ## Run app
 pip install flask, run 

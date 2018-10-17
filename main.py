@@ -26,14 +26,11 @@ def table_check():
             pass
 
 
-# @app.route('/')
-# def render_home():
-#     return render_template('index.html')
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
         original_url = str_encode(request.form.get('url'))
+        # add http if url does not contain http header
         if urlparse(original_url).scheme == '':
             url = 'http://' + original_url
         # when url does not contain http or https, the schema could be b''
@@ -55,13 +52,13 @@ def home():
 
 @app.route('/<short_url>')
 def redirect_short_url(short_url):
-    # import pdb; pdb.set_trace()
-    # click http://localhost:5000/ will run redirect_short_url("favicon.ico")
-    # toBase10('favicon.ico') would overflows the sqlite max, throws error
+    # homepage http://localhost:5000/ will run redirect_short_url("favicon.ico")
+    # url_to_base10('favicon.ico') would overflows the sqlite max and throws error
+    # I will add a filter to avoid this issue
     if short_url == 'favicon.ico':
         return render_template('index.html')
 
-    # decode short url from base62 decimal ro base10 id
+    # decode short url from base62 to base10 id
     decoded = url_to_base10(short_url)
 
     url = host  # fallback if no URL is found
